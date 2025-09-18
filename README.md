@@ -3,7 +3,7 @@
 **Course:** SD140/CEN1400 Section 01 Mobile Application Development  
 **Author:** Harry Sandhu  
 **Repository URL:** [https://github.com/hsandhu01/mobile_course_project](https://github.com/hsandhu01/mobile_course_project)  
-**GitHub Pages URL:** [https://hsandhu01.github.io/mobile_course_project/](https://hsandhu01.github.io/mobile_course_project/)
+**GitHub Pages URL:** [[https://hsandhu01.github.io/mobile_course_project/](https://sotd.us/harnidersandhu/mobile/module06/courseproject/index.html)]([https://hsandhu01.github.io/mobile_course_project/](https://sotd.us/harnidersandhu/mobile/module06/courseproject/index.html))
 
 ---
 
