@@ -28,8 +28,6 @@ mobile_course_project/
 ├── logo.png → Logo displayed on pages
 └── themes/ → (optional) extra styles or theme files
 
-yaml
-Copy code
 
 **Site Map:**
 - **Home (index.html)**  
@@ -56,7 +54,7 @@ Copy code
 ---
 
 ## Production Site
-👉 [Click here to view the live site](https://hsandhu01.github.io/mobile_course_project/)
+👉 [Click here to view the live site]([https://hsandhu01.github.io/mobile_course_project/](https://sotd.us/harnidersandhu/mobile/module06/courseproject/index.html))
 
 ---
 
