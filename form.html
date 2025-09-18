@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Submit Favorite</title>
+
+  <!-- theme + jQM -->
+  <link rel="stylesheet" href="themes/my-theme.min.css">
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+    /* disable ajax nav */
+    $(document).on("mobileinit", function(){ $.mobile.ajaxEnabled = false; });
+  </script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <!-- site styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-role="page" id="form" data-theme="a">
+  <!-- header -->
+  <div data-role="header" data-add-back-btn="true" data-theme="a">
+    <h1>Submit Favorite</h1>
+  </div>
+
+  <!-- content -->
+  <div role="main" class="ui-content container">
+    <section class="panel-accent" data-theme="c" style="margin-top:6px">
+      <p class="subtitle">Add a favorite movie. Entries are saved with <code>localStorage</code> and listed below.</p>
+    </section>
+
+    <form id="favoriteForm" class="panel" data-theme="a">
+      <!-- 5+ fields / 3+ types -->
+      <label for="title">Title *</label>
+      <input type="text" id="title" required>
+
+      <label for="year">Year</label>
+      <input type="number" id="year" min="1888" max="2100" placeholder="2014">
+
+      <label for="genre">Genre</label>
+      <select id="genre" data-theme="b">
+        <option value="">Select genre</option>
+        <option>Action</option><option>Drama</option><option>Sci-Fi</option>
+        <option>Comedy</option><option>Thriller</option>
+      </select>
+
+      <label for="rating">Rating: <span id="ratingValue">3</span>/5</label>
+      <input type="range" id="rating" min="1" max="5" step="1" value="3" data-theme="c">
+
+      <label for="email">Your Email (optional)</label>
+      <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+
+      <label class="subtitle">
+        <input type="checkbox" id="newsletter"> Subscribe to newsletter
+      </label>
+
+      <label for="notes">Notes</label>
+      <textarea id="notes" rows="4" placeholder="What makes it a favorite?"></textarea>
+
+      <button type="submit" class="ui-btn" data-theme="b">Save Favorite</button>
+    </form>
+
+    <section class="panel">
+      <h2 style="margin:0 0 12px">Saved Favorites (from Web Storage)</h2>
+      <!-- jQM listview for saved items -->
+      <ul id="savedList" data-role="listview" data-inset="false" data-theme="a"></ul>
+    </section>
+  </div>
+
+  <!-- footer -->
+  <div data-role="footer" data-theme="b" class="footer">
+    <h4>© 2025 Sandhu Software — Module 05</h4>
+  </div>
+</div>
+
+<script>
+  /* storage helpers */
+  const KEY = "favorites";
+  function getFavs(){ try { return JSON.parse(localStorage.getItem(KEY))||[]; } catch(e){ return []; } }
+  function setFavs(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+  /* render saved list */
+  function renderList(){
+    const data = getFavs();
+    const $ul = $("#savedList").empty();
+    if(!data.length){
+      $ul.append('<li data-theme="b"><span class="subtitle">No favorites yet. Add one above.</span></li>');
+      $ul.listview("refresh"); return;
+    }
+    data.forEach((f,i)=>{
+      const year = f.year ? ` <span class="subtitle">(${f.year})</span>` : "";
+      const meta = `<p><strong>Genre:</strong> ${f.genre||'—'} · <strong>Rating:</strong> ${f.rating||'—'}</p>`;
+      const notes = f.notes ? `<p>${f.notes}</p>` : "";
+      $ul.append(`<li data-icon="${i===0?'star':'carat-r'}"><a href="#">${f.title}${year}${meta}${notes}</a></li>`);
+    });
+    $ul.listview("refresh");
+  }
+
+  /* handle form submit */
+  $("#favoriteForm").on("submit", function(e){
+    e.preventDefault();
+    const fav = {
+      title: $("#title").val().trim(),
+      year: $("#year").val().trim(),
+      genre: $("#genre").val(),
+      rating: $("#rating").val(),
+      email: $("#email").val().trim(),
+      newsletter: $("#newsletter").is(":checked"),
+      notes: $("#notes").val().trim()
+    };
+    if(!fav.title){ alert("Please enter a title."); return; }
+    const list = getFavs(); list.unshift(fav); setFavs(list);
+    this.reset(); $("#ratingValue").text("3"); renderList();
+  });
+
+  /* live rating + initial render */
+  $(document).on("pagecreate", "#form", function(){
+    $("#rating").on("input", function(){ $("#ratingValue").text(this.value); });
+    renderList();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sandhu Software - Course Project Favorites (Module 05)</title>
+
+  <!-- theme + jQM -->
+  <link rel="stylesheet" href="themes/my-theme.min.css">
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+    /* disable ajax nav (prevents "Error Loading Page") */
+    $(document).on("mobileinit", function(){ $.mobile.ajaxEnabled = false; });
+  </script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <!-- site styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-role="page" id="home" data-theme="a">
+  <!-- header -->
+  <div data-role="header" data-theme="a">
+    <h1>Sandhu Software</h1>
+
+    <!-- custom nav; prevent jQM from styling it -->
+    <div class="container navbar" data-role="none">
+      <nav class="nav" aria-label="Primary" data-role="none">
+        <a href="index.html" class="btn" data-ajax="false">Home</a>
+        <a href="lists.html" class="btn" data-ajax="false">Favorites List</a>
+        <a href="form.html" class="btn" data-ajax="false">Submit Favorite</a>
+
+        <!-- keep the rest as simple placeholders -->
+        <a href="#" class="btn" data-ajax="false">Genres</a>
+        <a href="#" class="btn" data-ajax="false">Top Rated</a>
+        <a href="#" class="btn" data-ajax="false">Recently Watched</a>
+        <a href="#" class="btn" data-ajax="false">Watchlist</a>
+        <a href="#" class="btn" data-ajax="false">Random Pick</a>
+        <a href="#" class="btn" data-ajax="false">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div role="main" class="ui-content container">
+    <section class="hero">
+      <div class="badge">Module 05 • ThemeRoller (A/B/C) + JQM listview</div>
+      <h1>My Favorite Movies</h1>
+      <p class="subtitle">Theme upgraded with 3 swatches and jQuery Mobile components where required.</p>
+    </section>
+
+    <section class="panel">
+      <p>Open the Favorites List (filtered listview with icon + delete/clear) or the Submit Favorite form (saves multiple entries to <code>localStorage</code>).</p>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin:0 0 12px">Explore</h2>
+      <div class="grid" role="list">
+        <a class="btn-tile" role="listitem" href="lists.html" data-ajax="false">
+          <h3>Favorites List</h3>
+          <p>jQM filtered listview • star icon • delete • clear</p>
+        </a>
+        <a class="btn-tile" role="listitem" href="form.html" data-ajax="false">
+          <h3>Submit Favorite</h3>
+          <p>5+ fields saved to Web Storage</p>
+        </a>
+        <a class="btn-tile" role="listitem" href="#" data-ajax="false">
+          <h3>Genres</h3>
+          <p>Action, drama, sci-fi, and more.</p>
+        </a>
+        <a class="btn-tile" role="listitem" href="#" data-ajax="false">
+          <h3>Top Rated</h3>
+          <p>My personal 5-star picks.</p>
+        </a>
+        <a class="btn-tile" role="listitem" href="#" data-ajax="false">
+          <h3>Recently Watched</h3>
+          <p>Last 10 films I enjoyed.</p>
+        </a>
+        <a class="btn-tile" role="listitem" href="#" data-ajax="false">
+          <h3>Watchlist</h3>
+          <p>Coming soon to a couch near me.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin:0 0 12px">About This Project</h2>
+      <p>My Module 05 upload is available at:</p>
+      <p><strong>https://sotd.us/harnidersandhu/mobile/module06/courseproject/index.html</strong></p>
+    </section>
+  </div>
+
+  <!-- footer -->
+  <div data-role="footer" data-theme="b" class="footer">
+    <h4>© 2025 Sandhu Software — Module 05</h4>
+  </div>
+</div>
+</body>
+</html>

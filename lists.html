@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favorites List</title>
+
+  <!-- theme + jQM -->
+  <link rel="stylesheet" href="themes/my-theme.min.css">
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+    /* disable ajax nav */
+    $(document).on("mobileinit", function(){ $.mobile.ajaxEnabled = false; });
+  </script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <!-- site styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-role="page" id="lists" data-theme="a">
+  <!-- header -->
+  <div data-role="header" data-add-back-btn="true" data-theme="a">
+    <h1>Favorites List</h1>
+  </div>
+
+  <!-- content -->
+  <div role="main" class="ui-content container">
+    <div class="panel-accent" data-theme="c" style="margin-top:6px">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <span class="subtitle">Filter with the search box below. Total: <strong id="count">0</strong></span>
+        <a href="form.html" class="btn-small" data-role="button" data-mini="true" data-ajax="false">+ Add New Favorite</a>
+        <a href="#" id="clearBtn" class="btn-small" data-role="button" data-mini="true" data-theme="c">Clear All</a>
+      </div>
+    </div>
+
+    <!-- jQM filtered listview + split delete -->
+    <ul id="favList"
+        data-role="listview"
+        data-filter="true"
+        data-filter-placeholder="Search favorites..."
+        data-inset="false"
+        data-theme="a"
+        data-split-icon="delete"
+        data-split-theme="c">
+      <!-- items injected -->
+    </ul>
+  </div>
+
+  <!-- footer -->
+  <div data-role="footer" data-theme="b" class="footer">
+    <h4>© 2025 Sandhu Software — Module 05</h4>
+  </div>
+</div>
+
+<script>
+  /* storage helpers */
+  const KEY = "favorites";
+  function getFavs(){ try { return JSON.parse(localStorage.getItem(KEY))||[]; } catch(e){ return []; } }
+  function setFavs(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
+
+  /* render list */
+  function render(items){
+    const $ul = $("#favList").empty();
+    if(!items.length){
+      $ul.append('<li data-theme="b"><span class="subtitle">No favorites yet. Add one on the Submit page.</span></li>');
+      $ul.listview("refresh"); $("#count").text(0); return;
+    }
+    items.forEach((f,i)=>{
+      const year = f.year ? ` <span class="subtitle">(${f.year})</span>` : "";
+      const meta = `<p><strong>Genre:</strong> ${f.genre||'—'} · <strong>Rating:</strong> ${f.rating||'—'}</p>`;
+      const notes = f.notes ? `<p>${f.notes}</p>` : "";
+      const li = $(`
+        <li data-icon="${i===0 ? 'star' : 'carat-r'}">
+          <a href="#">${f.title||'Untitled'}${year}${meta}${notes}</a>
+          <a href="#" class="delete" data-index="${i}">Delete</a>
+        </li>
+      `);
+      $ul.append(li);
+    });
+    $ul.listview("refresh");
+    $("#count").text(items.length);
+  }
+
+  /* actions */
+  function wire(){
+    $("#favList").on("click","a.delete",function(e){
+      e.preventDefault();
+      const idx = parseInt($(this).data("index"),10);
+      const arr = getFavs(); arr.splice(idx,1); setFavs(arr); render(arr);
+    });
+    $("#favList").on("filterablefilter", function(){
+      const visible = $(this).children("li:not(.ui-screen-hidden)").length;
+      $("#count").text(visible);
+    });
+    $("#clearBtn").on("click", function(e){
+      e.preventDefault();
+      if(!confirm("Clear all saved favorites?")) return;
+      setFavs([]); render([]);
+    });
+  }
+
+  /* init */
+  $(document).on("pagecreate", "#lists", function(){
+    wire(); render(getFavs());
+  });
+</script>
+</body>
+</html>
